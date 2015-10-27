@@ -279,7 +279,34 @@ Following the same values from the example above, let's add the values to the se
 	  </Endpoints>
 	</WorkerRole>
 
+
 The network traffic will be load balanced using the testLB load balancer using port 80 for incoming requests, sending to worker role instances also on port 80.
+
+
+If it is web role then you must add endpoint as well binding for the website. Following example shows sample configuration for Web Role load balnced with ILB as well as public endpoint.
+
+	<WebRole name="WebRole1" vmsize="Small">
+	    <Sites>
+	      <Site name="MyTestWebsite">
+	        <Bindings>
+	          <Binding name="PublicEndpointBinding" endpointName="PublicEndpoint" />
+	          <Binding name="ILBEndpointBinding" endpointName="ILBEndpoint" />
+	          <Binding name="ILBEndpointHttpsBinding" endpointName="ILBEndpointHttps" />
+	        </Bindings>
+	      </Site>
+	    </Sites>
+	    <ConfigurationSettings>
+	      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
+	    </ConfigurationSettings>
+	    <Endpoints>
+	      <InputEndpoint name="PublicEndpoint" protocol="http" port="8081" />
+	      <InputEndpoint name="ILBEndpoint" protocol="http" localPort="80" port="80" loadBalancer="testLB" />
+	      <InputEndpoint name="ILBEndpointHttps" protocol="http" localPort="443" port="443" loadBalancer="testLB" />
+	    </Endpoints>
+	  </WebRole>
+  
+With the above setting you can acess the website 'MyTestWebsite' hossted in cloud service from public endpoint of cloud service over port 8081, from internal load balncer http://10.0.0.4 and https://10.0.0.4 simultaneously.
+
 
 
 ## Remove an Internal Load Balancing configuration
