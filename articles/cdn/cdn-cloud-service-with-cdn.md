@@ -494,6 +494,8 @@ Follow the steps below to integration ASP.NET bundling and minification with you
 
 		...   
 
+>[AZURE.WARNING] The BundleCollection class is part of System.Web.Optimization; which is part of Microsoft.AspNet.Web.Optimization framework. There are know issues with Microsoft.AspNet.Web.Optimization framework latest release 1.1.3. When a bundle script or style is rendered with query string like version information in the ulr you get no-cache header added to the response. In this case CDN nodes will never cache the response and always go back to web server. It is recommended to uninstall the default 1.1.3 version and install 1.1.1 version for this scenario. For different versions of Microsoft.AspNet.Web.Optimization framework, please see https://www.nuget.org/packages/microsoft.aspnet.web.optimization/.
+
 <a name="fallback"></a>
 ## Fallback mechanism for CDN URLs ##
 
